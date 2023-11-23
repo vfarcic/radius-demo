@@ -1,0 +1,66 @@
+import radius as radius
+
+@description('The Radius Application ID. Injected automatically by the rad CLI.')
+param application string
+
+resource demo 'Applications.Core/containers@2023-10-01-preview' = {
+  name: 'demo'
+  properties: {
+    application: application
+    container: {
+      image: 'ghcr.io/radius-project/samples/demo:latest'
+      ports: {
+        web: {
+          containerPort: 3000
+        }
+      }
+    }
+    connections: {
+      redis: {
+        source: db.id
+      }
+      backend: {
+        source: 'http://backend:80'
+      }
+    }
+  }
+}
+
+@description('The environment ID of your Radius Application. Set automatically by the rad CLI.')
+param environment string
+
+resource db 'Applications.Datastores/redisCaches@2023-10-01-preview' = {
+  name: 'db'
+  properties: {
+    application: application
+    environment: environment
+  }
+}
+
+resource backend 'Applications.Core/containers@2023-10-01-preview' = {
+  name: 'backend'
+  properties: {
+    application: application
+    container: {
+      image: 'nginx:latest'
+      ports: {
+        api: {
+          containerPort: 80
+        }
+      }
+    }
+  }
+}
+
+resource gateway 'Applications.Core/gateways@2023-10-01-preview' = {
+  name: 'gateway'
+  properties: {
+    application: application
+    routes: [
+      {
+        path: '/'
+        destination: 'http://demo:3000'
+      }
+    ]
+  }
+}
