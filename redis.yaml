@@ -1,0 +1,6 @@
+apiVersion: radapp.io/v1alpha3
+kind: Recipe
+metadata:
+  name: db
+spec:
+  type: Applications.Datastores/redisCaches
