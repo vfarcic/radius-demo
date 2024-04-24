@@ -1,0 +1,15 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.10.5/.schema/devbox.schema.json",
+  "packages": [
+    "kind@0.22.0",
+    "jq@1.7.1",
+    "bat@0.24.0"
+  ],
+  "shell": {
+    "init_hook": [
+      "alias cat='bat --paging never --theme DarkNeon --style plain'",
+      "PS1='➜ '"
+    ],
+    "scripts": {}
+  }
+}

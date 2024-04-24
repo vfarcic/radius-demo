@@ -1,0 +1,9 @@
+---
+apiVersion: radapp.io/v1alpha3
+kind: Recipe
+metadata:
+  name: db2
+spec:
+  environment: default
+  type: Applications.Datastores/redisCaches
+  secretName: redis-secret
